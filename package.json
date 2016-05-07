@@ -2,14 +2,14 @@
   "name": "textlint-rule-ignore-comments",
   "repository": {
     "type": "git",
-    "url": "https://github.com/azu/textlint-rule-ignore-comments.git"
+    "url": "https://github.com/textlint/textlint-rule-ignore-comments.git"
   },
   "author": "azu",
   "email": "azuciao@gmail.com",
-  "homepage": "https://github.com/azu/textlint-rule-ignore-comments",
+  "homepage": "https://github.com/textlint/textlint-rule-ignore-comments",
   "license": "MIT",
   "bugs": {
-    "url": "https://github.com/azu/textlint-rule-ignore-comments/issues"
+    "url": "https://github.com/textlint/textlint-rule-ignore-comments/issues"
   },
   "files": [
     "src/",

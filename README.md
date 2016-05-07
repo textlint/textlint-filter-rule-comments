@@ -102,7 +102,7 @@ textlint --rule ignore-comments README.md
 
 ## Changelog
 
-See [Releases page](https://github.com/azu/textlint-rule-ignore-comments/releases).
+See [Releases page](https://github.com/textlint/textlint-rule-ignore-comments/releases).
 
 ## Acknowledgement
 
@@ -117,7 +117,7 @@ Install devDependencies and Run `npm test`:
 ## Contributing
 
 Pull requests and stars are always welcome.
-For bugs and feature requests, [please create an issue](https://github.com/azu/textlint-rule-ignore-comments/issues).
+For bugs and feature requests, [please create an issue](https://github.com/textlint/textlint-rule-ignore-comments/issues).
 
 1. Fork it!
 2. Create your feature branch: `git checkout -b my-new-feature`
