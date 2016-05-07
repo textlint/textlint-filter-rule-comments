@@ -38,7 +38,7 @@ This is ignored.
 <!-- textlint-enable -->
          */
         [Syntax.Html](node){
-            const nodeValue = node.value || "";
+            const nodeValue = getSource(node);
             if (!isHTMLComment(nodeValue)) {
                 return;
             }
