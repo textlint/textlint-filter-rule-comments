@@ -83,7 +83,7 @@ textlint --rule ignore-comments README.md
     - disable comment directive
     - e.g.) `<!-- textlint-disable -->`
 
-```json
+```js
 {
     "rules": {
         "ignore-comments": {
