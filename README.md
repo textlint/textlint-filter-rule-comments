@@ -1,4 +1,4 @@
-# textlint-rule-ignore-comments
+# textlint-rule-ignore-comments [![Build Status](https://travis-ci.org/textlint/textlint-rule-ignore-comment.svg?branch=master)](https://travis-ci.org/textlint/textlint-rule-ignore-comment)
 
 textlint rule that ignore texts using comments directive.
 
