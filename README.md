@@ -48,7 +48,7 @@ OK:
 ```markdown
 <!-- textlint-disable -->
 
-this is wrong
+this is ok
 
 <!-- textlint-enable -->
 ```
