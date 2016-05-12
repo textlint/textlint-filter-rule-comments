@@ -70,7 +70,7 @@ export default class StatusManager {
         if (rulesToEnable.length) {
             rulesToEnable.forEach(function (ruleId) {
                 for (i = reportingConfig.length - 1; i >= 0; i--) {
-                    if (!reportingConfig[i].endIndex && reportingConfig[i].rule === ruleId) {
+                    if (!reportingConfig[i].endIndex && reportingConfig[i].ruleId === ruleId) {
                         reportingConfig[i].endIndex = endIndex;
                         break;
                     }

@@ -51,8 +51,7 @@ This is ignored.
                 statusManager.disableReporting(node, parseRuleIds(configValue));
             }
         },
-        // TODO: https://github.com/textlint/textlint/issues/204
-        ["Comment"](node){
+        [Syntax.Comment](node){
             const commentValue = node.value || "";
             if (commentValue.indexOf(enablingComment) !== -1) {
                 const configValue = commentValue.replace(enablingComment, "");
@@ -67,7 +66,7 @@ This is ignored.
             ignoringMessages.forEach(message => {
                 const range = [message.startIndex, message.endIndex];
                 shouldIgnore(range, {
-                    ruleId: message.ruleId
+                    ruleId: message.ruleId || "*"
                 });
             })
         }

@@ -39,10 +39,10 @@
     "babel-register": "^6.8.0",
     "mocha": "^2.4.5",
     "power-assert": "^1.4.0",
-    "textlint": "^6.6.0",
+    "textlint": "^6.8.0",
     "textlint-rule-report-node-types": "^1.0.1"
   },
   "peerDependencies": {
-    "textlint": ">=6.6.0"
+    "textlint": ">=6.8.0"
   }
 }
