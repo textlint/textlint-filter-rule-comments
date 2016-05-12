@@ -10,7 +10,7 @@ Install with [npm](https://www.npmjs.com/):
 
 Dependencies:
 
-- [textlint](http://textlint.github.io/ "textlint") >= 6.6
+- [textlint](http://textlint.github.io/ "textlint") >= 6.8
 
 ## Usage
 
