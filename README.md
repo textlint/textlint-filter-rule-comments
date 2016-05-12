@@ -33,7 +33,7 @@ This is error text.
 
 Ignore specified rules:
 
-```
+```markdown
 <!-- textlint-disable ruleA,ruleB -->
 
 Ignore RuleA and RuleB
