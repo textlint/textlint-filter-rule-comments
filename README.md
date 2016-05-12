@@ -31,6 +31,18 @@ Disables all rules between comments
 This is error text.
 ```
 
+Ignore specified rules:
+
+```
+<!-- textlint-disable ruleA,ruleB -->
+
+Ignore RuleA and RuleB
+
+<!-- textlint-enable ruleA -->
+
+Still ignore RuleB
+```
+
 **Limitation(markdown)**:
 
 Require new-line around of `<!-- textlint-disable -->` in Markdown.
