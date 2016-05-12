@@ -46,6 +46,7 @@ Still ignore RuleB
 **Limitation(markdown)**:
 
 Require new-line around of `<!-- textlint-disable -->` in Markdown.
+This limitation com from [remark](https://github.com/wooorm/remark "remark").
 
 NG:
 
