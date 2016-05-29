@@ -5,18 +5,20 @@ const TextLintNodeType = require("textlint").TextLintNodeType;
 const filterRule = require("../src/textlint-filter-rule-comments");
 const reportRule = require("textlint-rule-report-node-types");
 const assert = require("power-assert");
-describe.skip("textlint-rule-ignore-node-types --fix", function () {
+describe("textlint-rule-ignore-node-types", function () {
     context("no options", function () {
         context("when before textlint-enable", function () {
             it("should not ignored", function () {
                 const textlint = new TextLintCore();
                 textlint.setupRules({
-                    ignore: filterRule,
                     report: reportRule
                 }, {
                     report: {
                         nodeTypes: [TextLintNodeType.Str]
                     }
+                });
+                textlint.setupFilterRules({
+                    filter: filterRule
                 });
                 return textlint.fixText(`
 This is Error.
@@ -26,8 +28,8 @@ This is Error.
 This is ignored.
 
 <!-- textlint-enable -->
+
 `, ".md").then(({messages}) => {
-                    console.log(messages);
                     assert.equal(messages.length, 1);
                 });
             });
@@ -36,12 +38,15 @@ This is ignored.
             it("should messages is ignored between disable and enable", function () {
                 const textlint = new TextLintCore();
                 textlint.setupRules({
-                    ignore: filterRule,
                     report: reportRule
                 }, {
                     report: {
                         nodeTypes: [TextLintNodeType.Str]
                     }
+                });
+
+                textlint.setupFilterRules({
+                    filter: filterRule
                 });
                 return textlint.fixText(`
 <!-- textlint-disable -->
@@ -58,12 +63,15 @@ This is text.
             it("should not ignored", function () {
                 const textlint = new TextLintCore();
                 textlint.setupRules({
-                    ignore: filterRule,
                     report: reportRule
                 }, {
                     report: {
                         nodeTypes: [TextLintNodeType.Str]
                     }
+                });
+
+                textlint.setupFilterRules({
+                    filter: filterRule
                 });
                 return textlint.fixText(`
 
@@ -85,12 +93,15 @@ This is Error.
             it("should ignore messages of ruleA", function () {
                 const textlint = new TextLintCore();
                 textlint.setupRules({
-                    ignore: filterRule,
                     ruleA: reportRule
                 }, {
                     ruleA: {
                         nodeTypes: [TextLintNodeType.Str]
                     }
+                });
+
+                textlint.setupFilterRules({
+                    filter: filterRule
                 });
                 return textlint.fixText(`
 <!-- textlint-disable ruleA -->
@@ -105,12 +116,15 @@ This is text.
             it("should not ignore messages of other rules", function () {
                 const textlint = new TextLintCore();
                 textlint.setupRules({
-                    ignore: filterRule,
                     ruleX: reportRule
                 }, {
                     ruleX: {
                         nodeTypes: [TextLintNodeType.Str]
                     }
+                });
+
+                textlint.setupFilterRules({
+                    filter: filterRule
                 });
                 return textlint.fixText(`
 <!-- textlint-disable ruleA -->
@@ -127,7 +141,6 @@ This is text.
             it("should ignore messages of ruleA", function () {
                 const textlint = new TextLintCore();
                 textlint.setupRules({
-                    ignore: filterRule,
                     ruleA: reportRule,
                     ruleB: reportRule
                 }, {
@@ -137,6 +150,10 @@ This is text.
                     ruleB: {
                         nodeTypes: [TextLintNodeType.Str]
                     }
+                });
+
+                textlint.setupFilterRules({
+                    filter: filterRule
                 });
                 return textlint.fixText(`
 
