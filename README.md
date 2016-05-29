@@ -73,7 +73,7 @@ Via `.textlintrc`(Recommended)
 
 ```json
 {
-    "rules": {
+    "filters": {
         "ignore-comments": true
     }
 }
@@ -98,7 +98,7 @@ textlint --rule ignore-comments README.md
 
 ```js
 {
-    "rules": {
+    "filters": {
         "ignore-comments": {
             // enable comment directive
             // if comment has the value, then enable textlint rule
