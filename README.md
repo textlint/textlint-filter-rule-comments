@@ -1,4 +1,4 @@
-# textlint-rule-ignore-comments [![Build Status](https://travis-ci.org/textlint/textlint-rule-ignore-comment.svg?branch=master)](https://travis-ci.org/textlint/textlint-rule-ignore-comment)
+# textlint-filter-rule-comments [![Build Status](https://travis-ci.org/textlint/textlint-filter-rule-comments.svg?branch=master)](https://travis-ci.org/textlint/textlint-filter-rule-comments)
 
 textlint rule that ignore texts using comments directive.
 
@@ -6,11 +6,11 @@ textlint rule that ignore texts using comments directive.
 
 Install with [npm](https://www.npmjs.com/):
 
-    npm install textlint-rule-ignore-comments
+    npm install textlint-filter-rule-comments
 
 Dependencies:
 
-- [textlint](http://textlint.github.io/ "textlint") >= 6.8
+- [textlint](http://textlint.github.io/ "textlint") >= 6.9
 
 ## Usage
 
@@ -115,7 +115,7 @@ textlint --rule ignore-comments README.md
 
 ## Changelog
 
-See [Releases page](https://github.com/textlint/textlint-rule-ignore-comments/releases).
+See [Releases page](https://github.com/textlint/textlint-filter-rule-comments/releases).
 
 ## Acknowledgement
 
@@ -130,7 +130,7 @@ Install devDependencies and Run `npm test`:
 ## Contributing
 
 Pull requests and stars are always welcome.
-For bugs and feature requests, [please create an issue](https://github.com/textlint/textlint-rule-ignore-comments/issues).
+For bugs and feature requests, [please create an issue](https://github.com/textlint/textlint-filter-rule-comments/issues).
 
 1. Fork it!
 2. Create your feature branch: `git checkout -b my-new-feature`

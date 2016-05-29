@@ -1,15 +1,15 @@
 {
-  "name": "textlint-rule-ignore-comments",
+  "name": "textlint-filter-rule-comments",
   "repository": {
     "type": "git",
-    "url": "https://github.com/textlint/textlint-rule-ignore-comments.git"
+    "url": "https://github.com/textlint/textlint-filter-rule-comments.git"
   },
   "author": "azu",
   "email": "azuciao@gmail.com",
-  "homepage": "https://github.com/textlint/textlint-rule-ignore-comments",
+  "homepage": "https://github.com/textlint/textlint-filter-rule-comments",
   "license": "MIT",
   "bugs": {
-    "url": "https://github.com/textlint/textlint-rule-ignore-comments/issues"
+    "url": "https://github.com/textlint/textlint-filter-rule-comments/issues"
   },
   "files": [
     "src/",
@@ -17,7 +17,7 @@
   ],
   "version": "1.1.0",
   "description": "textlint rule that ignore texts using comments directive.",
-  "main": "lib/textlint-rule-ignore-comments.js",
+  "main": "lib/textlint-filter-rule-comments.js",
   "directories": {
     "test": "test"
   },
@@ -40,7 +40,7 @@
     "mocha": "^2.4.5",
     "power-assert": "^1.4.0",
     "textlint": "^6.8.0",
-    "textlint-rule-report-node-types": "^1.0.1"
+    "textlint-rule-report-node-types": "^1.1.0"
   },
   "peerDependencies": {
     "textlint": ">=6.8.0"

@@ -2,23 +2,23 @@
 "use strict";
 const TextLintCore = require("textlint").TextLintCore;
 const TextLintNodeType = require("textlint").TextLintNodeType;
-const ignoreRule = require("../src/textlint-rule-ignore-comments");
+const filterRule = require("../src/textlint-filter-rule-comments");
 const reportRule = require("textlint-rule-report-node-types");
 const assert = require("power-assert");
-describe("textlint-rule-ignore-node-types", function () {
+describe.skip("textlint-rule-ignore-node-types --fix", function () {
     context("no options", function () {
         context("when before textlint-enable", function () {
             it("should not ignored", function () {
                 const textlint = new TextLintCore();
                 textlint.setupRules({
-                    ignore: ignoreRule,
+                    ignore: filterRule,
                     report: reportRule
                 }, {
                     report: {
                         nodeTypes: [TextLintNodeType.Str]
                     }
                 });
-                return textlint.lintMarkdown(`
+                return textlint.fixText(`
 This is Error.
 
 <!-- textlint-disable -->
@@ -26,7 +26,8 @@ This is Error.
 This is ignored.
 
 <!-- textlint-enable -->
-`).then(({messages}) => {
+`, ".md").then(({messages}) => {
+                    console.log(messages);
                     assert.equal(messages.length, 1);
                 });
             });
@@ -35,20 +36,20 @@ This is ignored.
             it("should messages is ignored between disable and enable", function () {
                 const textlint = new TextLintCore();
                 textlint.setupRules({
-                    ignore: ignoreRule,
+                    ignore: filterRule,
                     report: reportRule
                 }, {
                     report: {
                         nodeTypes: [TextLintNodeType.Str]
                     }
                 });
-                return textlint.lintMarkdown(`
+                return textlint.fixText(`
 <!-- textlint-disable -->
 
 This is text.
 
 <!-- textlint-enable -->
-`).then(({messages}) => {
+`, ".md").then(({messages}) => {
                     assert.equal(messages.length, 0);
                 });
             });
@@ -57,14 +58,14 @@ This is text.
             it("should not ignored", function () {
                 const textlint = new TextLintCore();
                 textlint.setupRules({
-                    ignore: ignoreRule,
+                    ignore: filterRule,
                     report: reportRule
                 }, {
                     report: {
                         nodeTypes: [TextLintNodeType.Str]
                     }
                 });
-                return textlint.lintMarkdown(`
+                return textlint.fixText(`
 
 <!-- textlint-disable -->
 
@@ -73,7 +74,7 @@ This is ignored.
 <!-- textlint-enable -->
 
 This is Error.
-`).then(({messages}) => {
+`, ".md").then(({messages}) => {
                     assert.equal(messages.length, 1);
                 });
             });
@@ -84,40 +85,40 @@ This is Error.
             it("should ignore messages of ruleA", function () {
                 const textlint = new TextLintCore();
                 textlint.setupRules({
-                    ignore: ignoreRule,
+                    ignore: filterRule,
                     ruleA: reportRule
                 }, {
                     ruleA: {
                         nodeTypes: [TextLintNodeType.Str]
                     }
                 });
-                return textlint.lintMarkdown(`
+                return textlint.fixText(`
 <!-- textlint-disable ruleA -->
 
 This is text.
 
 <!-- textlint-enable ruleA -->
-`).then(({messages}) => {
+`, ".md").then(({messages}) => {
                     assert.equal(messages.length, 0);
                 });
             });
             it("should not ignore messages of other rules", function () {
                 const textlint = new TextLintCore();
                 textlint.setupRules({
-                    ignore: ignoreRule,
+                    ignore: filterRule,
                     ruleX: reportRule
                 }, {
                     ruleX: {
                         nodeTypes: [TextLintNodeType.Str]
                     }
                 });
-                return textlint.lintMarkdown(`
+                return textlint.fixText(`
 <!-- textlint-disable ruleA -->
 
 This is text.
 
 <!-- textlint-enable -->
-`).then(({messages}) => {
+`, ".md").then(({messages}) => {
                     assert.equal(messages.length, 1);
                 });
             });
@@ -126,7 +127,7 @@ This is text.
             it("should ignore messages of ruleA", function () {
                 const textlint = new TextLintCore();
                 textlint.setupRules({
-                    ignore: ignoreRule,
+                    ignore: filterRule,
                     ruleA: reportRule,
                     ruleB: reportRule
                 }, {
@@ -137,7 +138,7 @@ This is text.
                         nodeTypes: [TextLintNodeType.Str]
                     }
                 });
-                return textlint.lintMarkdown(`
+                return textlint.fixText(`
 
 <!-- textlint-disable ruleA,ruleB -->
 
@@ -147,7 +148,7 @@ This is ignored. RuleA and RuleB
 
 This is Error of RuleA.
 
-`).then(({messages}) => {
+`, ".md").then(({messages}) => {
                     assert.equal(messages.length, 1);
                 });
             });
