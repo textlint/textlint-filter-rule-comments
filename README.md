@@ -74,7 +74,7 @@ Via `.textlintrc`(Recommended)
 ```json
 {
     "filters": {
-        "ignore-comments": true
+        "comments": true
     }
 }
 ```
