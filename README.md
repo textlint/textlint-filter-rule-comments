@@ -79,12 +79,6 @@ Via `.textlintrc`(Recommended)
 }
 ```
 
-Via CLI
-
-```
-textlint --rule ignore-comments README.md
-```
-
 ### Options
 
 - `enablingComment`:
