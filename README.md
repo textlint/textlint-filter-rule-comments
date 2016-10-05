@@ -93,7 +93,7 @@ Via `.textlintrc`(Recommended)
 ```js
 {
     "filters": {
-        "ignore-comments": {
+        "comments": {
             // enable comment directive
             // if comment has the value, then enable textlint rule
             "enablingComment": "textlint-enable",
