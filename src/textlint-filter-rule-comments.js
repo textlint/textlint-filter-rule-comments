@@ -1,7 +1,7 @@
 // LICENSE : MIT
 "use strict";
 import StatusManager from "./StatusManager";
-import {parseRuleIds, getValueFromHTMLComment, isHTMLComment} from "./parse-comment";
+import {parseRuleIds, getValuesFromHTMLComment, isHTMLComment} from "./parse-comment";
 const defaultOptions = {
     // enable comment directive
     // if comment has the value, then enable textlint rule
@@ -10,7 +10,7 @@ const defaultOptions = {
     // if comment has the value, then disable textlint rule
     "disablingComment": "textlint-disable"
 };
-module.exports = function (context, options = defaultOptions) {
+module.exports = function(context, options = defaultOptions) {
     const {Syntax, shouldIgnore, getSource} = context;
 
     const enablingComment = options.enablingComment || defaultOptions.enablingComment;
@@ -42,14 +42,16 @@ This is ignored.
             if (!isHTMLComment(nodeValue)) {
                 return;
             }
-            const commentValue = getValueFromHTMLComment(nodeValue);
-            if (commentValue.indexOf(enablingComment) !== -1) {
-                const configValue = commentValue.replace(enablingComment, "");
-                statusManager.enableReporting(node, parseRuleIds(configValue));
-            } else if (commentValue.indexOf(disablingComment) !== -1) {
-                const configValue = commentValue.replace(disablingComment, "");
-                statusManager.disableReporting(node, parseRuleIds(configValue));
-            }
+            const comments = getValuesFromHTMLComment(nodeValue);
+            comments.forEach(commentValue => {
+                if (commentValue.indexOf(enablingComment) !== -1) {
+                    const configValue = commentValue.replace(enablingComment, "");
+                    statusManager.enableReporting(node, parseRuleIds(configValue));
+                } else if (commentValue.indexOf(disablingComment) !== -1) {
+                    const configValue = commentValue.replace(disablingComment, "");
+                    statusManager.disableReporting(node, parseRuleIds(configValue));
+                }
+            });
         },
         [Syntax.Comment](node){
             const commentValue = node.value || "";

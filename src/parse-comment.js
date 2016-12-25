@@ -4,12 +4,18 @@ const HTML_COMMENT_REGEXP = /<!--((?:.|\s)*?)-->/g;
 export function isHTMLComment(htmlString) {
     return HTML_COMMENT_REGEXP.test(htmlString);
 }
+
 /**
  * get comment value from html comment tag
  * @param {string} commentValue <!-- comment -->
+ * @returns {string[]}
  */
-export function getValueFromHTMLComment(commentValue) {
-    return commentValue.replace(HTML_COMMENT_REGEXP, "$1");
+export function getValuesFromHTMLComment(commentValue) {
+    const results = [];
+    commentValue.replace(HTML_COMMENT_REGEXP, function(all, comment){
+        results.push(comment);
+    });
+    return results;
 }
 /**
  * Parses a config of values separated by comma.
@@ -17,11 +23,10 @@ export function getValueFromHTMLComment(commentValue) {
  * @returns {Object} Result map of values and true values
  */
 export function parseListConfig(string) {
-    var items = {};
+    const items = {};
 
     // Collapse whitespace around ,
     string = string.replace(/\s*,\s*/g, ",");
-
     string.split(/,+/).forEach(function (name) {
         name = name.trim();
         if (!name) {

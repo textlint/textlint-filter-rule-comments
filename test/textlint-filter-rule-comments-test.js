@@ -33,6 +33,31 @@ This is ignored.
                 });
             });
         });
+        context("when multi-line comments", function () {
+            it("should be ignored", function () {
+                const textlint = new TextLintCore();
+                textlint.setupRules({
+                    report: reportRule
+                }, {
+                    report: {
+                        nodeTypes: [TextLintNodeType.Str]
+                    }
+                });
+                textlint.setupFilterRules({
+                    filter: filterRule
+                });
+                return textlint.lintMarkdown(`
+<!-- textlint-disable -->
+<!-- This is comment -->
+
+This is ignored.
+
+<!-- textlint-enable -->
+`).then(({messages}) => {
+                    assert.equal(messages.length, 0);
+                });
+            });
+        });
         context("when during disable -- enable", function () {
             it("should messages is ignored between disable and enable", function () {
                 const textlint = new TextLintCore();
