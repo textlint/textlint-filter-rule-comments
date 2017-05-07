@@ -1,5 +1,7 @@
 # textlint-filter-rule-comments [![Build Status](https://travis-ci.org/textlint/textlint-filter-rule-comments.svg?branch=master)](https://travis-ci.org/textlint/textlint-filter-rule-comments)
 
+[![Greenkeeper badge](https://badges.greenkeeper.io/textlint/textlint-filter-rule-comments.svg)](https://greenkeeper.io/)
+
 textlint rule that ignore error using comments directive.
 
 ## Install
