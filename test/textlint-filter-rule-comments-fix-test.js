@@ -1,10 +1,11 @@
 // LICENSE : MIT
 "use strict";
-const TextLintCore = require("textlint").TextLintCore;
-const TextLintNodeType = require("textlint").TextLintNodeType;
-const filterRule = require("../src/textlint-filter-rule-comments");
-const reportRule = require("textlint-rule-report-node-types");
-const assert = require("power-assert");
+import reportRule from "textlint-rule-report-node-types";
+import { TextLintCore } from "@textlint/legacy-textlint-core"
+import { ASTNodeTypes } from "@textlint/ast-node-types";
+import assert from "assert";
+import filterRule from "../src/textlint-filter-rule-comments";
+
 describe("textlint-rule-ignore-node-types", function () {
     context("no options", function () {
         context("when before textlint-enable", function () {
@@ -14,7 +15,7 @@ describe("textlint-rule-ignore-node-types", function () {
                     report: reportRule
                 }, {
                     report: {
-                        nodeTypes: [TextLintNodeType.Str]
+                        nodeTypes: [ASTNodeTypes.Str]
                     }
                 });
                 textlint.setupFilterRules({
@@ -29,7 +30,7 @@ This is ignored.
 
 <!-- textlint-enable -->
 
-`, ".md").then(({messages}) => {
+`, ".md").then(({ messages }) => {
                     assert.equal(messages.length, 1);
                 });
             });
@@ -41,10 +42,10 @@ This is ignored.
                     report: reportRule
                 }, {
                     report: {
-                        nodeTypes: [TextLintNodeType.Str]
+                        nodeTypes: [ASTNodeTypes.Str]
                     }
                 });
-
+                
                 textlint.setupFilterRules({
                     filter: filterRule
                 });
@@ -54,7 +55,7 @@ This is ignored.
 This is text.
 
 <!-- textlint-enable -->
-`, ".md").then(({messages}) => {
+`, ".md").then(({ messages }) => {
                     assert.equal(messages.length, 0);
                 });
             });
@@ -66,10 +67,10 @@ This is text.
                     report: reportRule
                 }, {
                     report: {
-                        nodeTypes: [TextLintNodeType.Str]
+                        nodeTypes: [ASTNodeTypes.Str]
                     }
                 });
-
+                
                 textlint.setupFilterRules({
                     filter: filterRule
                 });
@@ -82,7 +83,7 @@ This is ignored.
 <!-- textlint-enable -->
 
 This is Error.
-`, ".md").then(({messages}) => {
+`, ".md").then(({ messages }) => {
                     assert.equal(messages.length, 1);
                 });
             });
@@ -96,10 +97,10 @@ This is Error.
                     ruleA: reportRule
                 }, {
                     ruleA: {
-                        nodeTypes: [TextLintNodeType.Str]
+                        nodeTypes: [ASTNodeTypes.Str]
                     }
                 });
-
+                
                 textlint.setupFilterRules({
                     filter: filterRule
                 });
@@ -109,7 +110,7 @@ This is Error.
 This is text.
 
 <!-- textlint-enable ruleA -->
-`, ".md").then(({messages}) => {
+`, ".md").then(({ messages }) => {
                     assert.equal(messages.length, 0);
                 });
             });
@@ -119,10 +120,10 @@ This is text.
                     ruleX: reportRule
                 }, {
                     ruleX: {
-                        nodeTypes: [TextLintNodeType.Str]
+                        nodeTypes: [ASTNodeTypes.Str]
                     }
                 });
-
+                
                 textlint.setupFilterRules({
                     filter: filterRule
                 });
@@ -132,7 +133,7 @@ This is text.
 This is text.
 
 <!-- textlint-enable -->
-`, ".md").then(({messages}) => {
+`, ".md").then(({ messages }) => {
                     assert.equal(messages.length, 1);
                 });
             });
@@ -145,13 +146,13 @@ This is text.
                     ruleB: reportRule
                 }, {
                     ruleA: {
-                        nodeTypes: [TextLintNodeType.Str]
+                        nodeTypes: [ASTNodeTypes.Str]
                     },
                     ruleB: {
-                        nodeTypes: [TextLintNodeType.Str]
+                        nodeTypes: [ASTNodeTypes.Str]
                     }
                 });
-
+                
                 textlint.setupFilterRules({
                     filter: filterRule
                 });
@@ -165,7 +166,7 @@ This is ignored. RuleA and RuleB
 
 This is Error of RuleA.
 
-`, ".md").then(({messages}) => {
+`, ".md").then(({ messages }) => {
                     assert.equal(messages.length, 1);
                 });
             });
