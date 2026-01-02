@@ -45,3 +45,21 @@ export function parseListConfig(string) {
 export function parseRuleIds(string) {
     return Object.keys(parseListConfig(string));
 }
+
+/**
+ * Remove trailing description part that follows `--` in comment directives.
+ * @param {string} string
+ * @returns {string}
+ * @example
+ * removeCommentDescription(" ruleA -- because of reasons"); // => " ruleA "
+ */
+export function removeCommentDescription(string) {
+    if (!string) {
+        return string;
+    }
+    const index = string.indexOf("--");
+    if (index === -1) {
+        return string;
+    }
+    return string.slice(0, index);
+}

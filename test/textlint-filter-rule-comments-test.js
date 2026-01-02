@@ -69,7 +69,7 @@ This is ignored.
                         nodeTypes: [ASTNodeTypes.Str]
                     }
                 });
-                
+
                 textlint.setupFilterRules({
                     filter: filterRule
                 });
@@ -94,7 +94,7 @@ This is text.
                         nodeTypes: [ASTNodeTypes.Str]
                     }
                 });
-                
+
                 textlint.setupFilterRules({
                     filter: filterRule
                 });
@@ -124,7 +124,7 @@ This is Error.
                         nodeTypes: [ASTNodeTypes.Str]
                     }
                 });
-                
+
                 textlint.setupFilterRules({
                     filter: filterRule
                 });
@@ -147,7 +147,7 @@ This is text.
                         nodeTypes: [ASTNodeTypes.Str]
                     }
                 });
-                
+
                 textlint.setupFilterRules({
                     filter: filterRule
                 });
@@ -176,7 +176,7 @@ This is text.
                         nodeTypes: [ASTNodeTypes.Str]
                     }
                 });
-                
+
                 textlint.setupFilterRules({
                     filter: filterRule
                 });
@@ -192,6 +192,226 @@ This is Error of RuleA.
 
 `).then(({ messages }) => {
                     assert.equal(messages.length, 1);
+                });
+            });
+        });
+
+        context("description basics", function () {
+            it("should ignore messages when using description in disable comment", function () {
+                const textlint = new TextLintCore();
+                textlint.setupRules({
+                    ruleA: reportRule
+                }, {
+                    ruleA: {
+                        nodeTypes: [ASTNodeTypes.Str]
+                    }
+                });
+
+                textlint.setupFilterRules({
+                    filter: filterRule
+                });
+                return textlint.lintMarkdown(`
+<!-- textlint-disable ruleA -- temporary -->
+
+This is text.
+
+<!-- textlint-enable ruleA -->
+`).then(({ messages }) => {
+                    assert.equal(messages.length, 0);
+                });
+            });
+
+            it("should ignore messages when disabling multiple rules with description", function () {
+                const textlint = new TextLintCore();
+                textlint.setupRules({
+                    ruleA: reportRule,
+                    ruleB: reportRule
+                }, {
+                    ruleA: {
+                        nodeTypes: [ASTNodeTypes.Str]
+                    },
+                    ruleB: {
+                        nodeTypes: [ASTNodeTypes.Str]
+                    }
+                });
+
+                textlint.setupFilterRules({
+                    filter: filterRule
+                });
+                return textlint.lintMarkdown(`
+<!-- textlint-disable ruleA,ruleB -- temporary -->
+
+This is text.
+
+<!-- textlint-enable -->
+`).then(({ messages }) => {
+                    assert.equal(messages.length, 0);
+                });
+            });
+
+            it("should re-enable ruleA when using description in enable comment", function () {
+                const textlint = new TextLintCore();
+                textlint.setupRules({
+                    ruleA: reportRule
+                }, {
+                    ruleA: {
+                        nodeTypes: [ASTNodeTypes.Str]
+                    }
+                });
+
+                textlint.setupFilterRules({
+                    filter: filterRule
+                });
+                return textlint.lintMarkdown(`
+<!-- textlint-disable ruleA -->
+
+This is text.
+
+<!-- textlint-enable ruleA -- done -->
+
+This is Error.
+`).then(({ messages }) => {
+                    assert.equal(messages.length, 1);
+                });
+            });
+
+            it("should re-enable all when using description without rule ids in enable comment", function () {
+                const textlint = new TextLintCore();
+                textlint.setupRules({
+                    report: reportRule
+                }, {
+                    report: {
+                        nodeTypes: [ASTNodeTypes.Str]
+                    }
+                });
+
+                textlint.setupFilterRules({
+                    filter: filterRule
+                });
+                return textlint.lintMarkdown(`
+<!-- textlint-disable -->
+
+This is text.
+
+<!-- textlint-enable -- done -->
+
+This is Error.
+`).then(({ messages }) => {
+                    assert.equal(messages.length, 1);
+                });
+            });
+        });
+
+        context("edge cases for comment descriptions with --", function () {
+            it("should ignore messages when `--` appears before directive", function () {
+                const textlint = new TextLintCore();
+                textlint.setupRules({
+                    ruleA: reportRule,
+                    ruleB: reportRule
+                }, {
+                    ruleA: {
+                        nodeTypes: [ASTNodeTypes.Str]
+                    },
+                    ruleB: {
+                        nodeTypes: [ASTNodeTypes.Str]
+                    }
+                });
+
+                textlint.setupFilterRules({
+                    filter: filterRule
+                });
+                return textlint.lintMarkdown(`
+<!-- -- textlint-disable ruleA -->
+
+This is text.
+
+<!-- textlint-enable -->
+`).then(({ messages }) => {
+                    assert.equal(messages.length, 0);
+                });
+            });
+
+            it("should ignore messages when '---' follows directive", function () {
+                const textlint = new TextLintCore();
+                textlint.setupRules({
+                    ruleA: reportRule,
+                    ruleB: reportRule
+                }, {
+                    ruleA: {
+                        nodeTypes: [ASTNodeTypes.Str]
+                    },
+                    ruleB: {
+                        nodeTypes: [ASTNodeTypes.Str]
+                    }
+                });
+
+                textlint.setupFilterRules({
+                    filter: filterRule
+                });
+                return textlint.lintMarkdown(`
+<!-- textlint-disable --- reason -->
+
+This is text.
+
+<!-- textlint-enable -->
+`).then(({ messages }) => {
+                    assert.equal(messages.length, 0);
+                });
+            });
+
+            it("should ignore messages when '----' follows a rule id", function () {
+                const textlint = new TextLintCore();
+                textlint.setupRules({
+                    ruleA: reportRule,
+                    ruleB: reportRule
+                }, {
+                    ruleA: {
+                        nodeTypes: [ASTNodeTypes.Str]
+                    },
+                    ruleB: {
+                        nodeTypes: [ASTNodeTypes.Str]
+                    }
+                });
+
+                textlint.setupFilterRules({
+                    filter: filterRule
+                });
+                return textlint.lintMarkdown(`
+<!-- textlint-disable ruleA ---- reason -->
+
+This is text.
+
+<!-- textlint-enable -->
+`).then(({ messages }) => {
+                    assert.equal(messages.length, 0);
+                });
+            });
+
+            it("should ignore messages when multiple '--' are present", function () {
+                const textlint = new TextLintCore();
+                textlint.setupRules({
+                    ruleA: reportRule,
+                    ruleB: reportRule
+                }, {
+                    ruleA: {
+                        nodeTypes: [ASTNodeTypes.Str]
+                    },
+                    ruleB: {
+                        nodeTypes: [ASTNodeTypes.Str]
+                    }
+                });
+
+                textlint.setupFilterRules({
+                    filter: filterRule
+                });
+                return textlint.lintMarkdown(`
+<!-- textlint-disable ruleA -- reason -- extra -->
+
+This is text.
+
+<!-- textlint-enable -->
+`).then(({ messages }) => {
+                    assert.equal(messages.length, 0);
                 });
             });
         });

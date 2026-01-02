@@ -1,7 +1,7 @@
 // LICENSE : MIT
 "use strict";
 import StatusManager from "./StatusManager";
-import {parseRuleIds, getValuesFromHTMLComment, isHTMLComment} from "./parse-comment";
+import {parseRuleIds, getValuesFromHTMLComment, isHTMLComment, removeCommentDescription} from "./parse-comment";
 const defaultOptions = {
     // enable comment directive
     // if comment has the value, then enable textlint rule
@@ -23,7 +23,7 @@ module.exports = function(context, options = defaultOptions) {
         /*
 
 This is wrong format.
-https://github.com/wooorm/remark treat as one html block.        
+https://github.com/wooorm/remark treat as one html block.
 
 <!-- textlint-disable -->
 This is ignored.
@@ -45,10 +45,10 @@ This is ignored.
             const comments = getValuesFromHTMLComment(nodeValue);
             comments.forEach(commentValue => {
                 if (commentValue.indexOf(enablingComment) !== -1) {
-                    const configValue = commentValue.replace(enablingComment, "");
+                    const configValue = removeCommentDescription(commentValue.replace(enablingComment, ""));
                     statusManager.enableReporting(node, parseRuleIds(configValue));
                 } else if (commentValue.indexOf(disablingComment) !== -1) {
-                    const configValue = commentValue.replace(disablingComment, "");
+                    const configValue = removeCommentDescription(commentValue.replace(disablingComment, ""));
                     statusManager.disableReporting(node, parseRuleIds(configValue));
                 }
             });
@@ -56,10 +56,10 @@ This is ignored.
         [Syntax.Comment](node){
             const commentValue = node.value || "";
             if (commentValue.indexOf(enablingComment) !== -1) {
-                const configValue = commentValue.replace(enablingComment, "");
+                const configValue = removeCommentDescription(commentValue.replace(enablingComment, ""));
                 statusManager.enableReporting(node, parseRuleIds(configValue));
             } else if (commentValue.indexOf(disablingComment) !== -1) {
-                const configValue = commentValue.replace(disablingComment, "");
+                const configValue = removeCommentDescription(commentValue.replace(disablingComment, ""));
                 statusManager.disableReporting(node, parseRuleIds(configValue));
             }
         },
