@@ -2,8 +2,8 @@
 # This file defines code ownership for automatic review requests
 
 # Critical workflow files must be reviewed by repository owner
-/.github/workflows/release.yml @textlint
-/.github/workflows/create-release-pr.yml @textlint
+/.github/workflows/release.yml @textlint/admin
+/.github/workflows/create-release-pr.yml @textlint/admin
 
 # CODEOWNERS file itself requires review to prevent bypassing protections
-/.github/CODEOWNERS @textlint
+/.github/CODEOWNERS @textlint/admin
