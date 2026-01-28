@@ -1,8 +1,9 @@
 // LICENSE : MIT
 "use strict";
 import reportRule from "textlint-rule-report-node-types";
-import { TextLintCore } from "@textlint/legacy-textlint-core"
+import { TextlintKernel } from "@textlint/kernel";
 import { ASTNodeTypes } from "@textlint/ast-node-types";
+import markdownPlugin from "@textlint/textlint-plugin-markdown";
 import assert from "assert";
 import filterRule from "../src/textlint-filter-rule-comments";
 
@@ -10,18 +11,11 @@ describe("textlint-rule-ignore-node-types", function () {
     context("no options", function () {
         context("when before textlint-enable", function () {
             it("should not ignored", function () {
-                const textlint = new TextLintCore();
-                textlint.setupRules({
-                    report: reportRule
-                }, {
-                    report: {
-                        nodeTypes: [ASTNodeTypes.Str]
-                    }
-                });
-                textlint.setupFilterRules({
-                    filter: filterRule
-                });
-                return textlint.fixText(`
+                const kernel = new TextlintKernel();
+
+                return kernel
+                    .fixText(
+                        `
 This is Error.
 
 <!-- textlint-disable -->
@@ -30,51 +24,79 @@ This is ignored.
 
 <!-- textlint-enable -->
 
-`, ".md").then(({ messages }) => {
-                    assert.equal(messages.length, 1);
-                });
+`,
+                        {
+                            filePath: "input.md",
+                            ext: ".md",
+                            plugins: [
+                                {
+                                    pluginId: "markdown",
+                                    plugin: markdownPlugin,
+                                },
+                            ],
+                            rules: [
+                                {
+                                    ruleId: "report",
+                                    rule: reportRule,
+                                    options: { nodeTypes: [ASTNodeTypes.Str] },
+                                },
+                            ],
+                            filterRules: [
+                                { ruleId: "filter", rule: filterRule },
+                            ],
+                        },
+                    )
+                    .then(({ messages }) => {
+                        assert.equal(messages.length, 1);
+                    });
             });
         });
         context("when during disable -- enable", function () {
             it("should messages is ignored between disable and enable", function () {
-                const textlint = new TextLintCore();
-                textlint.setupRules({
-                    report: reportRule
-                }, {
-                    report: {
-                        nodeTypes: [ASTNodeTypes.Str]
-                    }
-                });
-                
-                textlint.setupFilterRules({
-                    filter: filterRule
-                });
-                return textlint.fixText(`
+                const kernel = new TextlintKernel();
+
+                return kernel
+                    .fixText(
+                        `
 <!-- textlint-disable -->
 
 This is text.
 
 <!-- textlint-enable -->
-`, ".md").then(({ messages }) => {
-                    assert.equal(messages.length, 0);
-                });
+`,
+                        {
+                            filePath: "input.md",
+                            ext: ".md",
+                            plugins: [
+                                {
+                                    pluginId: "markdown",
+                                    plugin: markdownPlugin,
+                                },
+                            ],
+                            rules: [
+                                {
+                                    ruleId: "report",
+                                    rule: reportRule,
+                                    options: { nodeTypes: [ASTNodeTypes.Str] },
+                                },
+                            ],
+                            filterRules: [
+                                { ruleId: "filter", rule: filterRule },
+                            ],
+                        },
+                    )
+                    .then(({ messages }) => {
+                        assert.equal(messages.length, 0);
+                    });
             });
         });
         context("when after textlint-enable", function () {
             it("should not ignored", function () {
-                const textlint = new TextLintCore();
-                textlint.setupRules({
-                    report: reportRule
-                }, {
-                    report: {
-                        nodeTypes: [ASTNodeTypes.Str]
-                    }
-                });
-                
-                textlint.setupFilterRules({
-                    filter: filterRule
-                });
-                return textlint.fixText(`
+                const kernel = new TextlintKernel();
+
+                return kernel
+                    .fixText(
+                        `
 
 <!-- textlint-disable -->
 
@@ -83,80 +105,118 @@ This is ignored.
 <!-- textlint-enable -->
 
 This is Error.
-`, ".md").then(({ messages }) => {
-                    assert.equal(messages.length, 1);
-                });
+`,
+                        {
+                            filePath: "input.md",
+                            ext: ".md",
+                            plugins: [
+                                {
+                                    pluginId: "markdown",
+                                    plugin: markdownPlugin,
+                                },
+                            ],
+                            rules: [
+                                {
+                                    ruleId: "report",
+                                    rule: reportRule,
+                                    options: { nodeTypes: [ASTNodeTypes.Str] },
+                                },
+                            ],
+                            filterRules: [
+                                { ruleId: "filter", rule: filterRule },
+                            ],
+                        },
+                    )
+                    .then(({ messages }) => {
+                        assert.equal(messages.length, 1);
+                    });
             });
         });
     });
     context("with ruleId options", function () {
         context("when disable <ruleA>", function () {
             it("should ignore messages of ruleA", function () {
-                const textlint = new TextLintCore();
-                textlint.setupRules({
-                    ruleA: reportRule
-                }, {
-                    ruleA: {
-                        nodeTypes: [ASTNodeTypes.Str]
-                    }
-                });
-                
-                textlint.setupFilterRules({
-                    filter: filterRule
-                });
-                return textlint.fixText(`
+                const kernel = new TextlintKernel();
+
+                return kernel
+                    .fixText(
+                        `
 <!-- textlint-disable ruleA -->
 
 This is text.
 
 <!-- textlint-enable ruleA -->
-`, ".md").then(({ messages }) => {
-                    assert.equal(messages.length, 0);
-                });
+`,
+                        {
+                            filePath: "input.md",
+                            ext: ".md",
+                            plugins: [
+                                {
+                                    pluginId: "markdown",
+                                    plugin: markdownPlugin,
+                                },
+                            ],
+                            rules: [
+                                {
+                                    ruleId: "ruleA",
+                                    rule: reportRule,
+                                    options: { nodeTypes: [ASTNodeTypes.Str] },
+                                },
+                            ],
+                            filterRules: [
+                                { ruleId: "filter", rule: filterRule },
+                            ],
+                        },
+                    )
+                    .then(({ messages }) => {
+                        assert.equal(messages.length, 0);
+                    });
             });
             it("should not ignore messages of other rules", function () {
-                const textlint = new TextLintCore();
-                textlint.setupRules({
-                    ruleX: reportRule
-                }, {
-                    ruleX: {
-                        nodeTypes: [ASTNodeTypes.Str]
-                    }
-                });
-                
-                textlint.setupFilterRules({
-                    filter: filterRule
-                });
-                return textlint.fixText(`
+                const kernel = new TextlintKernel();
+
+                return kernel
+                    .fixText(
+                        `
 <!-- textlint-disable ruleA -->
 
 This is text.
 
 <!-- textlint-enable -->
-`, ".md").then(({ messages }) => {
-                    assert.equal(messages.length, 1);
-                });
+`,
+                        {
+                            filePath: "input.md",
+                            ext: ".md",
+                            plugins: [
+                                {
+                                    pluginId: "markdown",
+                                    plugin: markdownPlugin,
+                                },
+                            ],
+                            rules: [
+                                {
+                                    ruleId: "ruleX",
+                                    rule: reportRule,
+                                    options: { nodeTypes: [ASTNodeTypes.Str] },
+                                },
+                            ],
+                            filterRules: [
+                                { ruleId: "filter", rule: filterRule },
+                            ],
+                        },
+                    )
+                    .then(({ messages }) => {
+                        assert.equal(messages.length, 1);
+                    });
             });
         });
         context("after textlint-enable <ruleA>", function () {
             it("should ignore messages of ruleA", function () {
-                const textlint = new TextLintCore();
-                textlint.setupRules({
-                    ruleA: reportRule,
-                    ruleB: reportRule
-                }, {
-                    ruleA: {
-                        nodeTypes: [ASTNodeTypes.Str]
-                    },
-                    ruleB: {
-                        nodeTypes: [ASTNodeTypes.Str]
-                    }
-                });
-                
-                textlint.setupFilterRules({
-                    filter: filterRule
-                });
-                return textlint.fixText(`
+                const kernel = new TextlintKernel();
+
+                return kernel
+                    .fixText(
+                        `
 
 <!-- textlint-disable ruleA,ruleB -->
 
@@ -166,9 +226,36 @@ This is ignored. RuleA and RuleB
 
 This is Error of RuleA.
 
-`, ".md").then(({ messages }) => {
-                    assert.equal(messages.length, 1);
-                });
+`,
+                        {
+                            filePath: "input.md",
+                            ext: ".md",
+                            plugins: [
+                                {
+                                    pluginId: "markdown",
+                                    plugin: markdownPlugin,
+                                },
+                            ],
+                            rules: [
+                                {
+                                    ruleId: "ruleA",
+                                    rule: reportRule,
+                                    options: { nodeTypes: [ASTNodeTypes.Str] },
+                                },
+                                {
+                                    ruleId: "ruleB",
+                                    rule: reportRule,
+                                    options: { nodeTypes: [ASTNodeTypes.Str] },
+                                },
+                            ],
+                            filterRules: [
+                                { ruleId: "filter", rule: filterRule },
+                            ],
+                        },
+                    )
+                    .then(({ messages }) => {
+                        assert.equal(messages.length, 1);
+                    });
             });
         });
     });
