@@ -2,6 +2,7 @@
 "use strict";
 const HTML_COMMENT_REGEXP = /<!--((?:.|\s)*?)-->/g;
 export function isHTMLComment(htmlString) {
+    HTML_COMMENT_REGEXP.lastIndex = 0;
     return HTML_COMMENT_REGEXP.test(htmlString);
 }
 
@@ -12,7 +13,8 @@ export function isHTMLComment(htmlString) {
  */
 export function getValuesFromHTMLComment(commentValue) {
     const results = [];
-    commentValue.replace(HTML_COMMENT_REGEXP, function(all, comment){
+    HTML_COMMENT_REGEXP.lastIndex = 0;
+    commentValue.replace(HTML_COMMENT_REGEXP, function (all, comment) {
         results.push(comment);
     });
     return results;
