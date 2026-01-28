@@ -36,10 +36,10 @@
     "@babel/core": "^7.0.0",
     "@babel/preset-env": "^7.0.0",
     "@babel/register": "^7.0.0",
-    "@textlint/ast-node-types": "^14.0.3",
-    "@textlint/legacy-textlint-core": "^14.0.3",
+    "@textlint/ast-node-types": "^15.5.1",
+    "@textlint/legacy-textlint-core": "^15.5.1",
     "mocha": "^10.3.0",
-    "textlint": "^14.0.3",
+    "textlint": "^15.5.1",
     "textlint-rule-report-node-types": "^1.1.0"
   }
 }
