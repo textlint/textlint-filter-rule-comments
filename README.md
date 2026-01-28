@@ -43,6 +43,12 @@ Ignore RuleA and RuleB
 Still ignore RuleB
 ```
 
+You can add a short description after `--` in a directive. Text after `--` is ignored. Example:
+
+```markdown
+<!-- textlint-disable ruleA -- Your description here. -->
+```
+
 **Limitation(markdown)**:
 
 Require new-line around of `<!-- textlint-disable -->` in Markdown.
@@ -82,11 +88,11 @@ Via `.textlintrc`(Recommended)
 ### Options
 
 - `enablingComment`:
-    - default: `"textlint-enable"` 
+    - default: `"textlint-enable"`
     - enable comment directive
     - e.g.) `<!-- textlint-enable -->`
 - `disablingComment`:
-    - default: `"textlint-disable"` 
+    - default: `"textlint-disable"`
     - disable comment directive
     - e.g.) `<!-- textlint-disable -->`
 
